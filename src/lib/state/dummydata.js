@@ -51,9 +51,9 @@ export default {
 
   projects: [
     {
-      name: "Quick CV",
-      link: "https://example.com/quickcv",
-      desc: "A small resume builder for trying layouts and exporting a PDF.",
+      name: "CV Builder",
+      link: "https://example.com/cvbuilder",
+      desc: "Fast CV builder to create beautiful resumes, uses browser's native window.print() to generate PDF at high quality",
     },
     {
       name: "Trail Notes",

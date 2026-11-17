@@ -1,19 +1,28 @@
-import type { State, ListsData } from "./types";
+import type { Clickable, State, ListsData } from "./types";
 import dummyState from "./dummydata";
 import { buildContactItems } from "./contact";
 
-const STORAGE_KEY = "quickcv";
+const STORAGE_KEY = "cvbuilder";
+
+const defaultClickable = (): Clickable => ({
+  email: true,
+  phone: true,
+  website: true,
+  github: true,
+  linkedin: true,
+});
 
 const example = (): State => ({
   details: { ...dummyState.details },
   shown: {
     email: true,
-    phone: true,
-    location: true,
+    phone: false,
+    location: false,
     website: true,
     github: true,
     linkedin: true,
   },
+  clickable: defaultClickable(),
   workExp: dummyState.workExp.map((item) => ({ ...item })),
   education: dummyState.education.map((item) => ({ ...item })),
   projects: dummyState.projects.map((item) => ({ ...item })),
@@ -22,7 +31,8 @@ const example = (): State => ({
 
 export let data: State = $state(example());
 
-export const contactItems = () => buildContactItems(data.details, data.shown);
+export const contactItems = () =>
+  buildContactItems(data.details, data.shown, data.clickable);
 
 export let ui = $state({
   mode: "split",
@@ -49,6 +59,9 @@ export const restoreState = () => {
     if (saved.shown && typeof saved.shown === "object") {
       data.shown = { ...data.shown, ...saved.shown };
     }
+    if (saved.clickable && typeof saved.clickable === "object") {
+      data.clickable = { ...data.clickable, ...saved.clickable };
+    }
     if (Array.isArray(saved.workExp)) data.workExp = saved.workExp;
     if (Array.isArray(saved.education)) data.education = saved.education;
     if (Array.isArray(saved.projects)) data.projects = saved.projects;
@@ -64,6 +77,7 @@ export const persistState = () => {
     JSON.stringify({
       details: $state.snapshot(data.details),
       shown: $state.snapshot(data.shown),
+      clickable: $state.snapshot(data.clickable),
       workExp: $state.snapshot(data.workExp),
       education: $state.snapshot(data.education),
       projects: $state.snapshot(data.projects),

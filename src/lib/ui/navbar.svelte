@@ -32,7 +32,7 @@
 <nav class="p3 brd frow items-center sticky top-0 z-10 bg-bg">
   <a class="frow" href="{base}/">
     <i class="i-icon-park-solid:flashlamp bg-info text-xl"></i>
-    <strong>Quick CV</strong>
+    <strong>CV Builder</strong>
   </a>
 
   <a href="{base}/templates" class="mr-auto ml2">Templates</a>

@@ -1,4 +1,4 @@
-import type { ContactKey, Details, Shown } from "./types";
+import type { Clickable, ContactKey, Details, Shown } from "./types";
 
 export type ContactIcon =
   | "phone"
@@ -40,17 +40,40 @@ const linkedinLabel = (value: string): string => {
   return slug ?? displayUrl(value);
 };
 
+const telHref = (phone: string): string => {
+  const compact = phone.replace(/[^\d+]/g, "");
+  return `tel:${compact || phone}`;
+};
+
+const link = (on: boolean, href: string): string | undefined =>
+  on ? href : undefined;
+
 export const buildContactItems = (
   details: Details,
   shown: Shown,
+  clickable: Clickable,
 ): ContactItem[] => {
   const items: ContactItem[] = [];
 
   const phone = shown.phone ? filled(details.phone) : null;
-  if (phone) items.push({ key: "phone", icon: "phone", text: phone });
+  if (phone) {
+    items.push({
+      key: "phone",
+      icon: "phone",
+      text: phone,
+      href: link(clickable.phone, telHref(phone)),
+    });
+  }
 
   const email = shown.email ? filled(details.email) : null;
-  if (email) items.push({ key: "email", icon: "mail", text: email });
+  if (email) {
+    items.push({
+      key: "email",
+      icon: "mail",
+      text: email,
+      href: link(clickable.email, `mailto:${email}`),
+    });
+  }
 
   const location = shown.location ? filled(details.location) : null;
   if (location) items.push({ key: "location", icon: "location", text: location });
@@ -61,7 +84,7 @@ export const buildContactItems = (
       key: "website",
       icon: "globe",
       text: displayUrl(website),
-      href: externalHref(website),
+      href: link(clickable.website, externalHref(website)),
     });
   }
 
@@ -73,7 +96,10 @@ export const buildContactItems = (
         key: "github",
         icon: "github",
         text: `@${handle}`,
-        href: `https://github.com/${encodeURIComponent(handle)}`,
+        href: link(
+          clickable.github,
+          `https://github.com/${encodeURIComponent(handle)}`,
+        ),
       });
     }
   }
@@ -84,7 +110,7 @@ export const buildContactItems = (
       key: "linkedin",
       icon: "linkedin",
       text: linkedinLabel(linkedin),
-      href: externalHref(linkedin),
+      href: link(clickable.linkedin, externalHref(linkedin)),
     });
   }
 

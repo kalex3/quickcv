@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Input } from "@haze-ui/svelte";
   import { data } from "$lib/state/index.svelte";
-  import type { ContactKey } from "$lib/state/types";
+  import type { ContactKey, LinkKey } from "$lib/state/types";
 </script>
 
 {#snippet showToggle(key: ContactKey, name: string)}
@@ -16,13 +16,41 @@
   </label>
 {/snippet}
 
+{#snippet clickableToggle(key: LinkKey, name: string)}
+  <label
+    class="frow gap1 text-sm text-muted-fg font-normal"
+    class:opacity-40={!data.shown[key]}
+  >
+    <input
+      type="checkbox"
+      class="checkbox-sm"
+      bind:checked={data.clickable[key]}
+      disabled={!data.shown[key]}
+      aria-label={`Make ${name} clickable`}
+    />
+    Clickable
+  </label>
+{/snippet}
+
+{#snippet fieldHead(id: string, label: string, key: ContactKey, name: string)}
+  <div class="frow flex-wrap justify-between gap-x2 gap-y1">
+    <label for={id}>{label}</label>
+    <span class="frow gap3">
+      {#if key !== "location"}
+        {@render clickableToggle(key, name)}
+      {/if}
+      {@render showToggle(key, name)}
+    </span>
+  </div>
+{/snippet}
+
 <div class="grid-(~ cols-2 gap5)">
   <strong class="frow col-span-2">
     <i class="i-majesticons:user-line"></i> Personal Details
   </strong>
 
   <p class="col-span-2 text-sm text-muted-fg -mt2">
-    Uncheck Show to hide that contact detail on the resume.
+    Uncheck Show to hide a contact detail. Uncheck Clickable to keep it as plain text.
   </p>
 
   <label for="name" class="col-span-2">Name</label>
@@ -55,14 +83,8 @@
     class="col-span-2 input"
   />
 
-  <div class="frow justify-between gap2">
-    <label for="email">Email</label>
-    {@render showToggle("email", "email")}
-  </div>
-  <div class="frow justify-between gap2">
-    <label for="phone">Phone Number</label>
-    {@render showToggle("phone", "phone number")}
-  </div>
+  {@render fieldHead("email", "Email", "email", "email")}
+  {@render fieldHead("phone", "Phone Number", "phone", "phone number")}
 
   <Input
     id="email"
@@ -79,14 +101,8 @@
     bind:value={data.details.phone}
   />
 
-  <div class="frow justify-between gap2">
-    <label for="location">Location</label>
-    {@render showToggle("location", "location")}
-  </div>
-  <div class="frow justify-between gap2">
-    <label for="website">Website</label>
-    {@render showToggle("website", "website")}
-  </div>
+  {@render fieldHead("location", "Location", "location", "location")}
+  {@render fieldHead("website", "Website", "website", "website")}
 
   <Input
     id="location"
@@ -104,14 +120,8 @@
     bind:value={data.details.website}
   />
 
-  <div class="frow justify-between gap2">
-    <label for="github">GitHub</label>
-    {@render showToggle("github", "GitHub")}
-  </div>
-  <div class="frow justify-between gap2">
-    <label for="linkedin">LinkedIn</label>
-    {@render showToggle("linkedin", "LinkedIn")}
-  </div>
+  {@render fieldHead("github", "GitHub", "github", "GitHub")}
+  {@render fieldHead("linkedin", "LinkedIn", "linkedin", "LinkedIn")}
 
   <Input
     id="github"

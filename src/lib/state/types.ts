@@ -28,6 +28,10 @@ export interface Shown {
 
 export type ContactKey = keyof Shown;
 
+export type LinkKey = Exclude<ContactKey, "location">;
+
+export type Clickable = Record<LinkKey, boolean>;
+
 export interface Education {
   institution: string | null;
   date: string | null;
@@ -48,6 +52,7 @@ export interface Skill {
 export interface State {
   details: Details;
   shown: Shown;
+  clickable: Clickable;
   workExp: WorkExp[];
   education: Education[];
   projects: Project[];
