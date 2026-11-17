@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { base } from "$app/paths";
   import Default from "$lib/templates/default.svelte";
   import Minimal from "$lib/templates/minimal.svelte";
   import Tile from "$lib/templates/tile.svelte";
@@ -21,7 +22,7 @@
     >
       <a
         class="badge text-primary-fg w-full text-5xl h-fit p5 justify-center capitalize"
-        href="/?theme={x.name}"
+        href="{base}/?theme={x.name}"
       >{x.name}</a>
 
       <div class="doc">

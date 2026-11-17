@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { base } from "$app/paths";
   import { page } from "$app/state";
   import { Btn, Tab, Tabs, TabsList } from "@haze-ui/svelte";
   import { generatePDF } from "$lib/utils";
@@ -20,17 +21,23 @@
     document.body.style.overflow = x == "split" ? "hidden" : "visible";
     ui.mode = x;
   };
+
+  const onEditor = $derived.by(() => {
+    if (page.route.id == "/") return true;
+    const path = page.url.pathname.replace(/\/index\.html$/, "").replace(/\/$/, "");
+    return path == base.replace(/\/$/, "");
+  });
 </script>
 
 <nav class="p3 brd frow items-center sticky top-0 z-10 bg-bg">
-  <a class="frow" href="/">
+  <a class="frow" href="{base}/">
     <i class="i-icon-park-solid:flashlamp bg-info text-xl"></i>
     <strong>Quick CV</strong>
   </a>
 
-  <a href="/templates" class="mr-auto ml2">Templates</a>
+  <a href="{base}/templates" class="mr-auto ml2">Templates</a>
 
-  {#if page.url.pathname == "/"}
+  {#if onEditor}
     <Viewscale />
 
     <Tabs value={ui.mode} setValue={setActive}>
