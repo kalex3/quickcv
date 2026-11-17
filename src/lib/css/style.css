@@ -110,7 +110,31 @@ body {
   }
 
   html {
-    background: var(--bg);
+    background: #fff;
+  }
+
+  /* The printed resume stays on the light palette even when the screen is dark. */
+  html.dark {
+    --fg: #1d293d;
+    --bg: #ffffff;
+    --primary: #364153;
+    --primary-fg: #ffffff;
+    --secondary: #eaeef4;
+    --secondary-fg: #1d293d;
+    --border: #d8e2ec;
+    --input: #f0f4f8;
+    --ring: #a9b0ff;
+    --muted: #f5f7fa;
+    --muted-fg: #557091;
+    --success: #22c55e;
+    --success-subtle: #dcfce7;
+    --warning: #bb9502;
+    --warning-subtle: #fef9c3;
+    --danger: #ed3535;
+    --danger-subtle: #fee2e2;
+    --info: #60a5fa;
+    --info-subtle: #dbeafe;
+    --codeblock: #232b3d;
   }
 
   body {

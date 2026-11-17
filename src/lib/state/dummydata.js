@@ -53,7 +53,7 @@ export default {
     {
       name: "Quick CV",
       link: "https://example.com/quickcv",
-      desc: "A small resume builder for trying layouts and exporting a PDF. This sample resume is the demo data.",
+      desc: "A small resume builder for trying layouts and exporting a PDF.",
     },
     {
       name: "Trail Notes",

@@ -35,16 +35,6 @@
     class="col-span-2 input"
   />
 
-  <label for="about" class="col-span-2">About</label>
-
-  <input
-    id="about"
-    type="text"
-    placeholder="about"
-    bind:value={data.details.about}
-    class="col-span-2 input"
-  />
-
   <label for="role" class="col-span-2">Role</label>
 
   <input
@@ -52,6 +42,16 @@
     type="text"
     placeholder="Frontend Developer"
     bind:value={data.details.role}
+    class="col-span-2 input"
+  />
+
+  <label for="about" class="col-span-2">About</label>
+
+  <input
+    id="about"
+    type="text"
+    placeholder="about"
+    bind:value={data.details.about}
     class="col-span-2 input"
   />
 

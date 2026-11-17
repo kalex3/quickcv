@@ -45,7 +45,7 @@
 <h2 class="frow">{@render hicon("briefcase")}Experience :</h2>
 
 {#each data.workExp as work}
-  <div class="frow flex-wrap gap-y-1 mb4">
+  <div class="frow flex-wrap gap-y-3 mb4">
     <span>
       <strong>{work.title} </strong>
       - {work.company}
