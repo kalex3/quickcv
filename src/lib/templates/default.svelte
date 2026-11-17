@@ -1,10 +1,11 @@
 <script lang="ts">
   import icons from "$lib/icons";
-  import { formatUrl, textAreaFormat } from "$lib/utils";
-  import { data } from "$lib/state/index.svelte";
+  import { textAreaFormat } from "$lib/utils";
+  import { contactItems, data } from "$lib/state/index.svelte";
 
   let name = $derived(data.details?.name?.split(" "));
-  let name2 = $derived(name?.slice(1))
+  let name2 = $derived(name?.slice(1));
+  let contacts = $derived(contactItems());
 </script>
 
 {#snippet hicon(icon: string)}
@@ -21,23 +22,20 @@
 
 <span class="text-(center xl) mb3 font-light">{data.details.role}</span>
 
-<div class="frow border-(t b solid fg) py3 text-sm justify-center [&>*]:gap2">
-  <span class="frow">{@html icons.phone} {data.details.phone} </span>
-  <span class="frow">{@html icons.mail} {data.details.email} </span>
-
-  {#if data.details.website}
-    <a class="frow" href={data.details.website} target="_blank"
-      >{@html icons.globe} {formatUrl(data.details.website)}
-    </a>
-  {/if}
-
-  <a
-    class="frow"
-    href={`https://github.com/${data.details.github}`}
-    target="_blank"
-    >{@html icons.github} @{data.details.github}
-  </a>
-</div>
+{#if contacts.length > 0}
+  <div class="frow flex-wrap border-(t b solid fg) py3 text-sm justify-center [&>*]:gap2">
+    {#each contacts as item (item.key)}
+      {#if item.href}
+        <a class="frow" href={item.href} target="_blank">
+          {@html icons[item.icon]}
+          {item.text}
+        </a>
+      {:else}
+        <span class="frow">{@html icons[item.icon]} {item.text}</span>
+      {/if}
+    {/each}
+  </div>
+{/if}
 
 <!---------------------- About -------------------------------- -->
 <h2 class="frow">{@render hicon("bullseye")}About :</h2>

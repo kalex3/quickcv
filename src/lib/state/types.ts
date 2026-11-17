@@ -17,6 +17,17 @@ export interface Details {
   role?: string | null;
 }
 
+export interface Shown {
+  email: boolean;
+  phone: boolean;
+  location: boolean;
+  website: boolean;
+  github: boolean;
+  linkedin: boolean;
+}
+
+export type ContactKey = keyof Shown;
+
 export interface Education {
   institution: string | null;
   date: string | null;
@@ -36,6 +47,7 @@ export interface Skill {
 
 export interface State {
   details: Details;
+  shown: Shown;
   workExp: WorkExp[];
   education: Education[];
   projects: Project[];

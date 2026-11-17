@@ -1,5 +1,6 @@
 import type { State, ListsData } from "./types";
 import dummyState from "./dummydata";
+import { buildContactItems } from "./contact";
 
 export let data: State = $state({
   details: {
@@ -9,7 +10,18 @@ export let data: State = $state({
     phone: null,
     location: null,
     website: null,
+    github: null,
+    linkedin: null,
     role: null,
+  },
+
+  shown: {
+    email: true,
+    phone: true,
+    location: true,
+    website: true,
+    github: true,
+    linkedin: true,
   },
 
   workExp: [{}],
@@ -17,6 +29,8 @@ export let data: State = $state({
   projects: [{}],
   skills: [{}],
 });
+
+export const contactItems = () => buildContactItems(data.details, data.shown);
 
 export let ui = $state({
   mode: "split",

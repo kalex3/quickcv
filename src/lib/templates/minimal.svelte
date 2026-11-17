@@ -1,21 +1,28 @@
 <script lang="ts">
-  import { formatUrl, textAreaFormat } from "$lib/utils";
-  import { data } from "$lib/state/index.svelte";
+  import { textAreaFormat } from "$lib/utils";
+  import { contactItems, data } from "$lib/state/index.svelte";
+
+  let contacts = $derived(contactItems());
 </script>
 
 <h1 class="text-4xl">{data.details.name}</h1>
 
-<div class="frow mt--1">
-  <span> {data.details.email} </span>|
-  <span> {data.details.phone} </span>|
-  <a href={data.details.website} target="_blank">
-    {formatUrl(data.details.website)}
-  </a>
-
-  <a href={`https://github.com/${data.details.github}`} target="_blank">
-    Github: @{data.details.github}
-  </a>
-</div>
+{#if contacts.length > 0}
+  <div class="frow flex-wrap mt--1">
+    {#each contacts as item, i (item.key)}
+      {#if i > 0}
+        <span aria-hidden="true">|</span>
+      {/if}
+      {#if item.href}
+        <a href={item.href} target="_blank">
+          {item.key === "github" ? `Github: ${item.text}` : item.text}
+        </a>
+      {:else}
+        <span>{item.text}</span>
+      {/if}
+    {/each}
+  </div>
+{/if}
 
 <h2>Summary</h2>
 <hr class="brd-fg mt--2" />

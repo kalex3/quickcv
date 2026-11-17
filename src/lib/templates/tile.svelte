@@ -1,7 +1,9 @@
 <script lang="ts">
-  import { formatUrl, textAreaFormat } from "$lib/utils";
-  import { data } from "$lib/state/index.svelte";
+  import { textAreaFormat } from "$lib/utils";
+  import { contactItems, data } from "$lib/state/index.svelte";
   import icons from "$lib/icons";
+
+  let contacts = $derived(contactItems());
 </script>
 
 <div class="text-center border-(y fg) py-6 -mt-3">
@@ -17,21 +19,16 @@
   <section class="grid gap1 border-(b r fg)">
     <h3 class="uppercase font-bold">Contact</h3>
 
-    <span class="frow">{@html icons.phone} {data.details.phone} </span>
-    <span class="frow">{@html icons.mail} {data.details.email} </span>
-
-    {#if data.details.website}
-      <a class="frow" href={data.details.website} target="_blank"
-        >{@html icons.globe} {formatUrl(data.details.website)}
-      </a>
-    {/if}
-
-    <a
-      class="frow"
-      href={`https://github.com/${data.details.github}`}
-      target="_blank"
-      >{@html icons.github} @{data.details.github}
-    </a>
+    {#each contacts as item (item.key)}
+      {#if item.href}
+        <a class="frow break-words" href={item.href} target="_blank">
+          {@html icons[item.icon]}
+          {item.text}
+        </a>
+      {:else}
+        <span class="frow break-words">{@html icons[item.icon]} {item.text}</span>
+      {/if}
+    {/each}
   </section>
 
   <section class="border-(b fg) !pl5">
