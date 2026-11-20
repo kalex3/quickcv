@@ -8,12 +8,26 @@
   }
 
   let { index, type }: Props = $props();
+
+  const names: Record<ListsData, string> = {
+    workExp: "Work Experience",
+    education: "Education",
+    projects: "Project",
+    skills: "Skill",
+  };
+
+  const label = $derived(`${names[type]} ${index + 1}`);
+
+  const remove = () => {
+    if (!confirm(`Delete ${label}?`)) return;
+    deleteCard(type, index);
+  };
 </script>
 
 <button
   class="absolute right-0 btn-soft-eqmd text-danger rounded-full"
-  aria-label="delete"
-  onclick={() => deleteCard(type, index)}
+  aria-label={"Delete " + label}
+  onclick={remove}
 >
   <i class="i-mi:delete"></i>
 </button>

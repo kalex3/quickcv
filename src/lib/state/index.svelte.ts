@@ -36,6 +36,7 @@ export const contactItems = () =>
 
 export let ui = $state({
   mode: "split",
+  panel: "editor",
   viewScale: 70,
 });
 
@@ -71,17 +72,17 @@ export const restoreState = () => {
   }
 };
 
+export const serializeState = () =>
+  JSON.stringify({
+    details: $state.snapshot(data.details),
+    shown: $state.snapshot(data.shown),
+    clickable: $state.snapshot(data.clickable),
+    workExp: $state.snapshot(data.workExp),
+    education: $state.snapshot(data.education),
+    projects: $state.snapshot(data.projects),
+    skills: $state.snapshot(data.skills),
+  });
+
 export const persistState = () => {
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify({
-      details: $state.snapshot(data.details),
-      shown: $state.snapshot(data.shown),
-      clickable: $state.snapshot(data.clickable),
-      workExp: $state.snapshot(data.workExp),
-      education: $state.snapshot(data.education),
-      projects: $state.snapshot(data.projects),
-      skills: $state.snapshot(data.skills),
-    }),
-  );
+  localStorage.setItem(STORAGE_KEY, serializeState());
 };

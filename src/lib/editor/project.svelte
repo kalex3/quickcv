@@ -8,30 +8,37 @@
   <div class="relative grid-(~ cols-2 gap5)">
     <Delete {index} type="projects" />
 
-    <label for="project">Project Name</label>
-    <label for="project-link">Link</label>
+    <label for={"project-" + index}>Project Name</label>
+    <label for={"project-link-" + index}>Link</label>
 
     <input
-      id="project"
+      id={"project-" + index}
+      name={"project-" + index}
       type="text"
-      placeholder="Name"
+      autocomplete="off"
+      placeholder="CV Builder…"
       class="input"
       bind:value={data.projects[index].name}
     />
 
     <input
-      id="project-date"
-      placeholder="Enter link"
+      id={"project-link-" + index}
+      name={"project-link-" + index}
+      placeholder="https://example.com…"
       class="input"
       bind:value={data.projects[index].link}
       type="url"
+      autocomplete="url"
+      spellcheck="false"
     />
 
-    <label for="project-desc" class="col-span-2">Description</label>
+    <label for={"project-desc-" + index} class="col-span-2">Description</label>
     <input
-      id="project-desc"
+      id={"project-desc-" + index}
+      name={"project-desc-" + index}
       type="text"
-      placeholder="Enter desc"
+      autocomplete="off"
+      placeholder="A short description of the project…"
       class="col-span-2 input"
       bind:value={data.projects[index].desc}
     />
@@ -39,9 +46,9 @@
 {/snippet}
 
 <div class="grid gap5">
-  <strong class="frow">
+  <h2 class="frow !text-base !font-bold">
     <i class="i-pajamas:project"></i> Project
-  </strong>
+  </h2>
 
   {#each data.projects as project, index}
     {#if index > 0}

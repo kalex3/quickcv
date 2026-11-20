@@ -21,6 +21,7 @@
     min="1"
     max="100"
     bind:value={ui.viewScale}
+    aria-label="Zoom"
     class="progress"
   />
   <button
@@ -30,5 +31,5 @@
     disabled={scale >= 100}
     onclick={() => step(10)}
   >+</button>
-  <span style="width: 4ch;">{scale}%</span>
+  <span class="tabular-nums" style="width: 4ch;">{scale}%</span>
 </div>

@@ -4,6 +4,7 @@ html {
 }
 
 :root {
+  color-scheme: light;
   --fg: #1d293d;
   --bg: #ffffff;
 
@@ -34,6 +35,7 @@ html {
 }
 
 .dark {
+  color-scheme: dark;
   --fg: #f3f4f6;
   --bg: #0b1221;
 
@@ -65,6 +67,8 @@ html {
 
 body {
   font-family: "Inter", sans-serif;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 h1 {
@@ -83,16 +87,46 @@ h4 {
   @apply text-base  lg:text-lg font-medium tracking-tight;
 }
 
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+}
+
 .link {
   @apply text-primary underline;
+}
+
+nav.frow {
+  padding-top: max(0.75rem, env(safe-area-inset-top));
+  padding-left: max(0.75rem, env(safe-area-inset-left));
+  padding-right: max(0.75rem, env(safe-area-inset-right));
+}
+
+nav a:hover,
+.doc a:hover {
+  color: var(--primary);
+}
+
+nav a:focus-visible,
+.doc a:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
 }
 
 .doc {
   width: 210mm;
   min-height: 297mm;
   transform-origin: top center;
-  transition: scale 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  overflow-wrap: anywhere;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   @apply p10 rounded bg-bg flex flex-col gap3 rounded trcking-tight;
+}
+
+.doc .frow,
+.doc .frow > * {
+  min-width: 0;
 }
 
 .doc a {
@@ -115,6 +149,7 @@ body {
 
   /* The printed resume stays on the light palette even when the screen is dark. */
   html.dark {
+    color-scheme: light;
     --fg: #1d293d;
     --bg: #ffffff;
     --primary: #364153;
@@ -153,7 +188,7 @@ body {
   }
 
   #resume {
-    scale: 1 !important;
+    transform: none !important;
     position: absolute;
     left: 0;
     top: 0;
@@ -175,7 +210,12 @@ body {
 }
 
 input[type="range"] {
-  @apply appearance-none h-3 outline-none overflow-hidden rounded-sm;
+  @apply appearance-none h-3 overflow-hidden rounded-sm;
+}
+
+input[type="range"]:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
 }
 
 input[type="range"]::-webkit-slider-runnable-track {
@@ -189,7 +229,8 @@ input[type="range"]::-webkit-slider-thumb {
   @apply transition duration-300;
 }
 
-input[type="range"]:hover::-webkit-slider-thumb {
+input[type="range"]:hover::-webkit-slider-thumb,
+input[type="range"]:focus-visible::-webkit-slider-thumb {
   box-shadow: -20em 0 0 20em var(--info);
   background-color: hsl(from var(--info) h s 60%);
 }
@@ -205,7 +246,20 @@ input[type="range"]::-moz-range-thumb {
   @apply transition duration-300;
 }
 
-input[type="range"]:hover::-moz-range-thumb {
+input[type="range"]:hover::-moz-range-thumb,
+input[type="range"]:focus-visible::-moz-range-thumb {
   box-shadow: -20em 0 0 20em var(--info);
   background-color: hsl(from var(--info) h s 60%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .doc,
+  input[type="range"]::-webkit-slider-thumb,
+  input[type="range"]::-moz-range-thumb {
+    transition: none;
+  }
 }

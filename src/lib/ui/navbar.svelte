@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { replaceState } from "$app/navigation";
   import { base } from "$app/paths";
   import { page } from "$app/state";
   import { Btn, Tab, Tabs, TabsList } from "@haze-ui/svelte";
@@ -7,19 +8,36 @@
   import Viewscale from "./viewscale.svelte";
   import { ui } from "$lib/state/index.svelte";
 
-  let theme = $state();
+  let theme = $state("dark");
 
-  onMount(() => theme = localStorage.theme);
+  const themeColor = (value: string) => (value == "dark" ? "#0b1221" : "#ffffff");
 
-  const toggleTheme = () => {
-    theme = theme == "dark" ? "light" : "dark";
-    localStorage.theme = theme;
-    document.querySelector("html").className = theme;
+  const applyTheme = (value: string) => {
+    theme = value;
+    localStorage.theme = value;
+    document.documentElement.className = value;
+    let meta = document.querySelector('meta[name="theme-color"]');
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.setAttribute("name", "theme-color");
+      document.head.append(meta);
+    }
+    meta.setAttribute("content", themeColor(value));
   };
 
+  onMount(() => {
+    theme = localStorage.theme || "dark";
+  });
+
+  const toggleTheme = () => applyTheme(theme == "dark" ? "light" : "dark");
+
   const setActive = (x: string) => {
-    document.body.style.overflow = x == "split" ? "hidden" : "visible";
+    if ((x !== "split" && x !== "tab") || x == ui.mode) return;
     ui.mode = x;
+    const url = new URL(window.location.href);
+    if (x == "split") url.searchParams.delete("mode");
+    else url.searchParams.set("mode", x);
+    replaceState(url, page.state);
   };
 
   const onEditor = $derived.by(() => {
@@ -29,10 +47,10 @@
   });
 </script>
 
-<nav class="p3 brd frow items-center sticky top-0 z-10 bg-bg">
-  <a class="frow" href="{base}/">
+<nav class="p3 brd frow flex-wrap items-center z-10 bg-bg">
+  <a class="frow min-w-0" href="{base}/">
     <i class="i-icon-park-solid:flashlamp bg-info text-xl"></i>
-    <strong>CV Builder</strong>
+    <strong translate="no">CV Builder</strong>
   </a>
 
   <a href="{base}/templates" class="mr-auto ml2">Templates</a>
@@ -50,7 +68,7 @@
 
     <Btn
       iconL="i-tabler:download"
-      txt="Download"
+      txt="Download PDF"
       class="btn-primary"
       onclick={generatePDF}
     />
@@ -58,13 +76,11 @@
 
   <button
     class="btn-soft-eqlg rounded-full"
-    aria-label="toggle dark mode"
+    aria-label={theme == "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
     onclick={toggleTheme}
   >
     <div
-      class={theme == "dark"
-      ? "i-line-md:sun-rising-twotone-loop"
-      : "i-line-md:moon-twotone-loop"}
+      class={theme == "dark" ? "i-lucide:sun" : "i-lucide:moon"}
     >
     </div>
   </button>

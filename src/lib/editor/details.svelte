@@ -34,7 +34,7 @@
 
 {#snippet fieldHead(id: string, label: string, key: ContactKey, name: string)}
   <div class="frow flex-wrap justify-between gap-x2 gap-y1">
-    <label for={id}>{label}</label>
+    <label for={id} translate={label == "GitHub" || label == "LinkedIn" ? "no" : "yes"}>{label}</label>
     <span class="frow gap3">
       {#if key !== "location"}
         {@render clickableToggle(key, name)}
@@ -45,9 +45,9 @@
 {/snippet}
 
 <div class="grid-(~ cols-2 gap5)">
-  <strong class="frow col-span-2">
+  <h2 class="frow col-span-2 !text-base !font-bold">
     <i class="i-majesticons:user-line"></i> Personal Details
-  </strong>
+  </h2>
 
   <p class="col-span-2 text-sm text-muted-fg -mt2">
     Uncheck Show to hide a contact detail. Uncheck Clickable to keep it as plain text.
@@ -57,9 +57,11 @@
 
   <input
     id="name"
+    name="name"
     type="text"
+    autocomplete="name"
     bind:value={data.details.name}
-    placeholder="Enter your name"
+    placeholder="Ada Lovelace…"
     class="col-span-2 input"
   />
 
@@ -67,8 +69,10 @@
 
   <input
     id="role"
+    name="role"
     type="text"
-    placeholder="Frontend Developer"
+    autocomplete="off"
+    placeholder="Frontend Developer…"
     bind:value={data.details.role}
     class="col-span-2 input"
   />
@@ -77,8 +81,10 @@
 
   <input
     id="about"
+    name="about"
     type="text"
-    placeholder="about"
+    autocomplete="off"
+    placeholder="Built web apps for small teams…"
     bind:value={data.details.about}
     class="col-span-2 input"
   />
@@ -88,15 +94,21 @@
 
   <Input
     id="email"
+    name="email"
     type="email"
-    placeholder="Enter your email"
+    autocomplete="email"
+    spellcheck="false"
+    placeholder="ada@example.com…"
     iconL="i-line-md:email"
     bind:value={data.details.email}
   />
   <Input
     id="phone"
-    type="text"
-    placeholder="Enter phone number"
+    name="phone"
+    type="tel"
+    inputmode="tel"
+    autocomplete="tel"
+    placeholder="+1 555 0100…"
     iconL="i-line-md:phone"
     bind:value={data.details.phone}
   />
@@ -106,16 +118,21 @@
 
   <Input
     id="location"
+    name="location"
     iconL="i-tdesign:location-filled"
     type="text"
-    placeholder="Enter location"
+    autocomplete="off"
+    placeholder="London, UK…"
     bind:value={data.details.location}
   />
 
   <Input
     id="website"
+    name="website"
     type="url"
-    placeholder="Enter website"
+    autocomplete="url"
+    spellcheck="false"
+    placeholder="https://example.com…"
     iconL="i-lucide:globe"
     bind:value={data.details.website}
   />
@@ -125,14 +142,21 @@
 
   <Input
     id="github"
-    placeholder="Username or profile URL"
+    name="github"
+    type="text"
+    autocomplete="off"
+    spellcheck="false"
+    placeholder="ada or github.com/ada…"
     iconL="i-mdi:github"
     bind:value={data.details.github}
   />
   <Input
     id="linkedin"
-    type="text"
-    placeholder="Enter linkedin url"
+    name="linkedin"
+    type="url"
+    autocomplete="url"
+    spellcheck="false"
+    placeholder="https://linkedin.com/in/ada…"
     iconL="i-mdi:linkedin"
     bind:value={data.details.linkedin}
   />

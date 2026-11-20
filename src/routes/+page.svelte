@@ -6,8 +6,6 @@
   import Ui from "$lib/ui/index.svelte";
   import { browser } from "$app/environment";
   import { page } from "$app/state";
-  import { onMount } from "svelte";
-  import { ui } from "$lib/state/index.svelte";
 
   let themes = {
     default: Default,
@@ -20,12 +18,6 @@
     browser ? page.url.searchParams.get("theme") || "default" : "default",
   );
   let Component = $derived(themes[themeName]);
-
-  onMount(() => {
-    document.body.style.overflow = ui.mode == "split"
-      ? "hidden"
-      : "visible";
-  });
 </script>
 
 <Ui>

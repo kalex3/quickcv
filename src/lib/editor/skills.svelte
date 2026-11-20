@@ -8,21 +8,26 @@
   <div class="relative grid-(~ cols-2 gap5)">
     <Delete {index} type="skills" />
 
-    <label for="skill">Skill Name</label>
-    <label for="skill-icon">Svg icon url</label>
+    <label for={"skill-" + index}>Skill Name</label>
+    <label for={"skill-icon-" + index}>SVG Icon</label>
 
     <input
-      id="skill"
+      id={"skill-" + index}
+      name={"skill-" + index}
       type="text"
-      placeholder="Name"
+      autocomplete="off"
+      placeholder="TypeScript…"
       class="input"
       bind:value={data.skills[index].name}
     />
 
     <input
-      id="skill-icon"
+      id={"skill-icon-" + index}
+      name={"skill-icon-" + index}
       type="text"
-      placeholder="Enter svg from iconfiy"
+      autocomplete="off"
+      spellcheck="false"
+      placeholder="SVG markup…"
       class="input"
       bind:value={data.skills[index].icon}
     />
@@ -30,9 +35,9 @@
 {/snippet}
 
 <div class="grid gap5">
-  <strong class="frow">
+  <h2 class="frow !text-base !font-bold">
     <i class="i-typcn:code-outline"></i> Skills
-  </strong>
+  </h2>
 
   {#each data.skills as _, index}
     {@render projectCard(index)}

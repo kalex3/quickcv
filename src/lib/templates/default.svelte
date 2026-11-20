@@ -8,40 +8,46 @@
   let contacts = $derived(contactItems());
 </script>
 
-{#snippet hicon(icon: string)}
-  <span class={`flex p1.5 bg-secondary text-xl rounded-full`}>
+{#snippet hicon(icon: keyof typeof icons)}
+  <span class="flex p1.5 bg-secondary text-xl rounded-full" aria-hidden="true">
     {@html icons[icon]}
   </span>
 {/snippet}
 
 <!---------------------- name -------------------------------- -->
-<div class="frow mx-auto">
-  <h1 class="text-4xl">{name?.[0]}</h1>
-  <h1 class="text-primary text-4xl">{name2?.join(' ')}</h1>
-</div>
+{#if data.details.name?.trim()}
+  <h1 class="frow mx-auto text-4xl">
+    <span>{name?.[0]}</span>
+    <span class="text-primary">{name2?.join(" ")}</span>
+  </h1>
+{/if}
 
-<span class="text-(center xl) mb3 font-light">{data.details.role}</span>
+{#if data.details.role?.trim()}
+  <span class="text-(center xl) mb3 font-light">{data.details.role}</span>
+{/if}
 
 {#if contacts.length > 0}
   <div class="frow flex-wrap border-(t b solid fg) py3 text-sm justify-center [&>*]:gap2">
     {#each contacts as item (item.key)}
       {#if item.href}
         <a class="frow" href={item.href} target="_blank">
-          {@html icons[item.icon]}
+          <span aria-hidden="true">{@html icons[item.icon]}</span>
           {item.text}
         </a>
       {:else}
-        <span class="frow">{@html icons[item.icon]} {item.text}</span>
+        <span class="frow"><span aria-hidden="true">{@html icons[item.icon]}</span> {item.text}</span>
       {/if}
     {/each}
   </div>
 {/if}
 
 <!---------------------- About -------------------------------- -->
-<h2 class="frow">{@render hicon("bullseye")}About :</h2>
+{#if data.details.about?.trim()}
+  <h2 class="frow">{@render hicon("bullseye")}About :</h2>
+  <p>{data.details.about}</p>
+{/if}
 
-<p>{data.details.about}</p>
-
+{#if data.workExp.length > 0}
 <h2 class="frow">{@render hicon("briefcase")}Experience :</h2>
 
 {#each data.workExp as work}
@@ -61,8 +67,10 @@
     </ul>
   </div>
 {/each}
+{/if}
 
 <!---------------------- Education -------------------------------- -->
+{#if data.education.length > 0}
 <h2 class="frow">{@render hicon("edu")}Education :</h2>
 
 <div class="grid grid-cols-2 gap3">
@@ -81,29 +89,34 @@
     </div>
   {/each}
 </div>
+{/if}
 
+{#if data.skills.length > 0}
 <h2 class="frow">{@render hicon("brain")}Skills :</h2>
 
 <div class="frow flex-wrap mb4 mt2">
   {#each data.skills as x}
     <span class="badge-secondary">
       {#if x.icon}
-        {@html x.icon}
+        <span aria-hidden="true">{@html x.icon}</span>
       {/if}
       {x.name}
     </span>
   {/each}
 </div>
-
-<h2 class="frow">{@render hicon("opensource")}Projects :</h2>
+{/if}
 
 {#if data.projects.length > 0}
-  {#each data.projects as project}
+<h2 class="frow">{@render hicon("opensource")}Projects :</h2>
+
+{#each data.projects as project}
     <div class="flex flex-wrap">
       <span class="badge-lg bg-fg text-primary-fg rounded-b-0"
         >{project.name}</span
       >
-      <a href={project.link} target="_blank" class="ml-auto">Link</a>
+      {#if project.link}
+        <a href={project.link} target="_blank" class="ml-auto">View Project</a>
+      {/if}
       <p class="brd-2-fg p3 rounded rounded-tl-0 w-full">{project.desc}</p>
     </div>
   {/each}

@@ -1,10 +1,12 @@
-export const textAreaFormat = (x: string) =>
-  x?.split("\n")?.map((l) => l?.slice(2));
+export const textAreaFormat = (x: string | null | undefined) =>
+  x?.split("\n")?.map((l) => l?.slice(2))?.filter((l) => l?.trim()) ?? [];
 
 export const generatePDF = () => {
   // mobiles
   if ("ontouchstart" in document.documentElement) {
-    alert("WIP!");
+    alert(
+      "Printing on a phone is not available yet. Open this page on a computer, then choose Download PDF.",
+    );
     return;
   }
 
@@ -19,7 +21,7 @@ export const generatePDF = () => {
   // Brave ignores window.print() with no error when printing is disabled.
   if (!opened) {
     alert(
-      "Printing is disabled in this browser, so the resume can't be saved as a PDF.",
+      "Turn printing on in this browser, then try Download PDF again.",
     );
   }
 };

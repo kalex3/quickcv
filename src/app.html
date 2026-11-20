@@ -13,7 +13,12 @@
     />
 
     <script>
-      document.querySelector("html").className = localStorage.theme  || 'dark';
+      var theme = localStorage.theme || "dark";
+      document.documentElement.className = theme;
+      var themeColor = document.createElement("meta");
+      themeColor.name = "theme-color";
+      themeColor.content = theme == "dark" ? "#0b1221" : "#ffffff";
+      document.head.appendChild(themeColor);
     </script>
 
 		%sveltekit.head%

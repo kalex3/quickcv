@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { onMount } from "svelte";
   import { base } from "$app/paths";
   import Default from "$lib/templates/default.svelte";
   import Minimal from "$lib/templates/minimal.svelte";
@@ -10,8 +9,6 @@
     { name: "minimal", component: Minimal },
     { name: "tile", component: Tile },
   ];
-
-  onMount(() => document.body.style.overflow = "visible");
 </script>
 
 <div class="flex flex-wrap gap-(x4 y12) p10">

@@ -7,37 +7,46 @@
 </script>
 
 <div class="text-center border-(y fg) py-6 -mt-3">
-  <h1 class="text-4xl tracking-wide">{data.details.name}</h1>
-  <p class="uppercase tracking-widest  mt2">
-    {data.details.role}
-  </p>
+  {#if data.details.name?.trim()}
+    <h1 class="text-4xl tracking-wide">{data.details.name}</h1>
+  {/if}
+  {#if data.details.role?.trim()}
+    <p class="uppercase tracking-widest  mt2">
+      {data.details.role}
+    </p>
+  {/if}
 </div>
 
 <div
   class=" mt--3 [&>section]:(p3 pb5 pl0) grid-(~ cols-[.3fr_1fr]) rid-rows-4"
 >
-  <section class="grid gap1 border-(b r fg)">
-    <h3 class="uppercase font-bold">Contact</h3>
+  {#if contacts.length > 0}
+  <section class="col-start-1 row-start-1 grid gap1 border-(b r fg)">
+    <h2 class="uppercase font-bold !text-lg lg:!text-xl">Contact</h2>
 
     {#each contacts as item (item.key)}
       {#if item.href}
         <a class="frow break-words" href={item.href} target="_blank">
-          {@html icons[item.icon]}
+          <span aria-hidden="true">{@html icons[item.icon]}</span>
           {item.text}
         </a>
       {:else}
-        <span class="frow break-words">{@html icons[item.icon]} {item.text}</span>
+        <span class="frow break-words"><span aria-hidden="true">{@html icons[item.icon]}</span> {item.text}</span>
       {/if}
     {/each}
   </section>
+  {/if}
 
-  <section class="border-(b fg) !pl5">
-    <h3 class="uppercase font-bold">Summary</h3>
+  {#if data.details.about?.trim()}
+  <section class="col-start-2 row-start-1 border-(b fg) !pl5">
+    <h2 class="uppercase font-bold !text-lg lg:!text-xl">Summary</h2>
     <p class="mt-2 text-sm">{data.details.about}</p>
   </section>
+  {/if}
 
-  <section class="grid gap1 border-(b r fg)">
-    <h3 class="uppercase font-bold">Education</h3>
+  {#if data.education.length > 0}
+  <section class="col-start-1 row-start-2 grid gap1 border-(b r fg)">
+    <h2 class="uppercase font-bold !text-lg lg:!text-xl">Education</h2>
 
     <div class="space-y-4">
       {#each data.education as edu}
@@ -52,9 +61,11 @@
       {/each}
     </div>
   </section>
+  {/if}
 
-  <section class="row-span-2 !pl5 flex flex-col gap3">
-    <h3 class="uppercase font-bold -mb-2">Work Experience</h3>
+  {#if data.workExp.length > 0}
+  <section class="col-start-2 row-start-2 row-span-2 !pl5 flex flex-col gap3">
+    <h2 class="uppercase font-bold !text-lg lg:!text-xl -mb-2">Work Experience</h2>
     {#each data.workExp as work}
       <div>
         <div class="flex justify-between">
@@ -70,9 +81,11 @@
       </div>
     {/each}
   </section>
+  {/if}
 
-  <section class="flex flex-col gap3 border-( r fg)">
-    <h3 class="uppercase font-bold">Skills</h3>
+  {#if data.skills.length > 0}
+  <section class="col-start-1 row-start-3 flex flex-col gap3 border-( r fg)">
+    <h2 class="uppercase font-bold !text-lg lg:!text-xl">Skills</h2>
 
     <ul class="frow flex-wrap">
       {#each data.skills as x}
@@ -80,18 +93,19 @@
       {/each}
     </ul>
   </section>
+  {/if}
 
-  <hr class="border-fg col-span-full" />
-
-  <!-- Projects (optional, not in your screenshot) -->
   {#if data.projects.length > 0}
-    <section class="col-span-full pl5">
-      <h3 class="uppercase font-bold mb3">Projects</h3>
+    <hr class="border-fg col-span-full row-start-4" />
+    <section class="col-span-full row-start-5 pl5">
+      <h2 class="uppercase font-bold !text-lg lg:!text-xl mb3">Projects</h2>
       {#each data.projects as x}
         <div class="brd-fg p3 flex-col flex gap1">
           <div class="flex justify-between items-center">
             <p class="font-semibold">{x.name}</p>
-            <a href={x.link} target="_blank">Link</a>
+            {#if x.link}
+              <a href={x.link} target="_blank">View Project</a>
+            {/if}
           </div>
           <p class="text-sm">{x.desc}</p>
         </div>

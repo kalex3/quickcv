@@ -9,38 +9,46 @@
   <div class="grid-(~ cols-2 gap5) relative">
     <Delete {index} type="workExp" />
 
-    <label for="company" class="col-span-2">Company</label>
+    <label for={"company-" + index} class="col-span-2">Company</label>
     <input
-      id="company"
+      id={"company-" + index}
+      name={"company-" + index}
       type="text"
-      placeholder="Khan Academy"
+      autocomplete="off"
+      placeholder="Khan Academy…"
       class="col-span-2 input"
       bind:value={data.workExp[index].company}
     />
 
-    <label for="title">Job Title</label>
-    <label for="date">Date</label>
+    <label for={"title-" + index}>Job Title</label>
+    <label for={"date-" + index}>Date</label>
 
     <input
-      id="title"
+      id={"title-" + index}
+      name={"title-" + index}
       type="text"
+      autocomplete="off"
       class="input"
-      placeholder="Software Engineer"
+      placeholder="Software Engineer…"
       bind:value={data.workExp[index].title}
     />
 
     <input
-      id="date"
+      id={"date-" + index}
+      name={"date-" + index}
       type="text"
+      autocomplete="off"
       class="input"
-      placeholder="Jun 2022 - Present"
+      placeholder="Jun 2022 - Present…"
       bind:value={data.workExp[index].date}
     />
 
-    <label for="description" class="col-span-2">Description</label>
+    <label for={"description-" + index} class="col-span-2">Description</label>
     <textarea
-      id="description"
-      placeholder="Enter description of your job"
+      id={"description-" + index}
+      name={"description-" + index}
+      autocomplete="off"
+      placeholder="Shipped the marketing site…"
       class="input col-span-2 min-h-[6rem]"
       bind:value={data.workExp[index].desc}
     ></textarea>
@@ -48,9 +56,9 @@
 {/snippet}
 
 <div class="grid gap5">
-  <strong class="frow">
+  <h2 class="frow !text-base !font-bold">
     <i class="i-tabler:briefcase"></i> Work Experience
-  </strong>
+  </h2>
 
   {#each data.workExp as work, index}
     {#if index > 0}
@@ -60,5 +68,5 @@
     {@render card(index)}
   {/each}
 
-  <button class="btn ml-auto" onclick={addWorkexp}>Add Work</button>
+  <button class="btn ml-auto" onclick={addWorkexp}>Add Work Experience</button>
 </div>

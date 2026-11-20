@@ -8,30 +8,36 @@
   <div class="grid-(~ cols-2 gap5) relative">
     <Delete {index} type="education" />
 
-    <label for="institution">Institution</label>
-    <label for="edu-date">Date</label>
+    <label for={"institution-" + index}>Institution</label>
+    <label for={"edu-date-" + index}>Date</label>
 
     <input
-      id="institution"
+      id={"institution-" + index}
+      name={"institution-" + index}
       type="text"
-      placeholder="Cornell University"
+      autocomplete="off"
+      placeholder="Cornell University…"
       class="input"
       bind:value={data.education[index].institution}
     />
 
     <input
-      id="edu-date"
+      id={"edu-date-" + index}
+      name={"edu-date-" + index}
       type="text"
-      placeholder="May 2018"
+      autocomplete="off"
+      placeholder="May 2018…"
       class="input"
       bind:value={data.education[index].date}
     />
 
-    <label for="qualification" class="col-span-2">Qualification</label>
+    <label for={"qualification-" + index} class="col-span-2">Qualification</label>
     <input
-      id="qualification"
+      id={"qualification-" + index}
+      name={"qualification-" + index}
       type="text"
-      placeholder="Bachelor of Science in Computer Engineering"
+      autocomplete="off"
+      placeholder="Bachelor of Science in Computer Engineering…"
       class="col-span-2 input"
       bind:value={data.education[index].qualification}
     />
@@ -39,9 +45,9 @@
 {/snippet}
 
 <div class="grid gap5">
-  <strong class="frow">
+  <h2 class="frow !text-base !font-bold">
     <i class="i-qlementine-icons:education-16"></i> Education
-  </strong>
+  </h2>
 
   {#each data.education as edu, index}
     {#if index > 0}
